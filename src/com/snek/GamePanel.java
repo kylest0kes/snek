@@ -19,12 +19,12 @@ public class GamePanel extends JPanel implements ActionListener {
 	final int y[] = new int[GAME_UNITS];
 	//set snake body part amount and tracker for apples eaten
 	int bodyParts = 6;
-	int applesEaten = 0;
+	int applesEaten;
 	//init variables for setting random points for the apple to gen
 	int appleX;
 	int appleY;
 	//init starting direction for snake
-	char direction = 'D';
+	char direction = 'R';
 	//init game state
 	boolean running = false;
 	Timer timer;
@@ -34,7 +34,7 @@ public class GamePanel extends JPanel implements ActionListener {
 	    //finish instance of random class
 		random = new Random();
 		//set panel size, background, and if focusable
-		this.setPreferredSize(new Dimension(SCREEN_H, SCREEN_W));
+		this.setPreferredSize(new Dimension(SCREEN_W, SCREEN_H));
 		this.setBackground(Color.BLACK);
 		this.setFocusable(true);
 		//add key listener from key adapter for key events
@@ -64,15 +64,18 @@ public class GamePanel extends JPanel implements ActionListener {
 	    g.setColor(Color.RED);
 	    g.fillOval(appleX, appleY, UNIT_SIZE, UNIT_SIZE);
 
-	    //for loop to loop snake body parts and draw them
+	    //for loop to loop snake head and body parts and draw them
 		for (int i = 0; i < bodyParts; i++) {
+			//front of array = head
 			if (i==0) {
 				g.setColor(Color.GREEN);
-				g.fillRect(x[i], y[i], UNIT_SIZE, UNIT_SIZE);
-			} else {
-				g.setColor(new Color(45, 180, 0));
-				g.fillRect(x[i], y[i], UNIT_SIZE, UNIT_SIZE);
 			}
+			//if not head, its body
+			else {
+				g.setColor(new Color(45, 180, 0));
+			}
+			g.fillRect(x[i], y[i], UNIT_SIZE, UNIT_SIZE);
+
 		}
     }
 
@@ -91,18 +94,10 @@ public class GamePanel extends JPanel implements ActionListener {
 		}
 		//switch statement for changing direction of snake
 		switch (direction) {
-			case 'U':
-				y[0] = y[0-UNIT_SIZE];
-				break;
-			case 'D':
-				y[0] = y[0+UNIT_SIZE];
-				break;
-			case 'L':
-				x[0] = x[0-UNIT_SIZE];
-				break;
-			case 'R':
-				x[0] = x[0+UNIT_SIZE];
-				break;
+			case 'U' -> y[0] = y[0] - UNIT_SIZE;
+			case 'D' -> y[0] = y[0] + UNIT_SIZE;
+			case 'L' -> x[0] = x[0] - UNIT_SIZE;
+			case 'R' -> x[0] = x[0] + UNIT_SIZE;
 		}
 	}
 
@@ -120,7 +115,13 @@ public class GamePanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+		//checks if game is running
+		if(running) {
+			move();
+			checkApple();
+			checkCollision();
+		}
+		repaint();
     }
 
     public class myKeyAdapter extends KeyAdapter {
