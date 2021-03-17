@@ -102,7 +102,11 @@ public class GamePanel extends JPanel implements ActionListener {
 	}
 
     public void checkApple() {
-
+		if ((x[0] == appleX) && (y[0] == appleY)) {
+			bodyParts++;
+			applesEaten++;
+			newApple();
+		}
     }
 
     public void checkCollision() {
@@ -142,7 +146,7 @@ public class GamePanel extends JPanel implements ActionListener {
     public class myKeyAdapter extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
-        	//switch for the different key presses
+        	//switch for the different key presses to change snake direction
 			switch (e.getKeyCode()) {
 				case KeyEvent.VK_LEFT:
 					//limits player to 90deg turns so they don't run into themselves
