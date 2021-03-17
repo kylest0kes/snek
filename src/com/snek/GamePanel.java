@@ -24,7 +24,7 @@ public class GamePanel extends JPanel implements ActionListener {
 	int appleX;
 	int appleY;
 	//init starting direction for snake
-	char direction = 'R';
+	char direction = 'D';
 	//init game state
 	boolean running = false;
 	Timer timer;
@@ -60,9 +60,20 @@ public class GamePanel extends JPanel implements ActionListener {
     }
 
     public void draw(Graphics g) {
-	    //sets apple color and draws it
+	    //sets apple color, shape, and location and draws it
 	    g.setColor(Color.RED);
 	    g.fillOval(appleX, appleY, UNIT_SIZE, UNIT_SIZE);
+
+	    //for loop to loop snake body parts and draw them
+		for (int i = 0; i < bodyParts; i++) {
+			if (i==0) {
+				g.setColor(Color.GREEN);
+				g.fillRect(x[i], y[i], UNIT_SIZE, UNIT_SIZE);
+			} else {
+				g.setColor(new Color(45, 180, 0));
+				g.fillRect(x[i], y[i], UNIT_SIZE, UNIT_SIZE);
+			}
+		}
     }
 
     public void newApple() {
@@ -71,7 +82,29 @@ public class GamePanel extends JPanel implements ActionListener {
 	    appleY = random.nextInt((int)(SCREEN_H/UNIT_SIZE)) * UNIT_SIZE;
     }
 
-
+    public void move() {
+		//iterates through the body parts of the snake
+		for (int i = bodyParts; i > 0; i--) {
+			//shifts all coordinates in the array over by one spot
+			x[i] = x[i-1];
+			y[i] = y[i-1];
+		}
+		//switch statement for changing direction of snake
+		switch (direction) {
+			case 'U':
+				y[0] = y[0-UNIT_SIZE];
+				break;
+			case 'D':
+				y[0] = y[0+UNIT_SIZE];
+				break;
+			case 'L':
+				x[0] = x[0-UNIT_SIZE];
+				break;
+			case 'R':
+				x[0] = x[0+UNIT_SIZE];
+				break;
+		}
+	}
 
     public void checkApple() {
 
