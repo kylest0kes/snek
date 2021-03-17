@@ -12,6 +12,5 @@ public class GameWindow extends JFrame {
         this.pack();
         this.setVisible(true);
         this.setLocationRelativeTo(null);
-
     }
 }
