@@ -24,7 +24,7 @@ public class GamePanel extends JPanel implements ActionListener {
 	int appleX;
 	int appleY;
 	//init starting direction for snake
-	char direction = 'R';
+	char direction = 'D';
 	//init game state
 	boolean running = false;
 	Timer timer;
@@ -106,7 +106,21 @@ public class GamePanel extends JPanel implements ActionListener {
     }
 
     public void checkCollision() {
+		//checking if snake head collided with body
+		for (int i = bodyParts; i > 0; i--) {
+			if((x[0] == x[i]) && (y[0] == y[i])) {
+				running = false;
+			}
+		}
+		//checking if snake head collided with borders (L -> R -> T -> B)
+		if (x[0] < 0 || x[0] > SCREEN_W || y[0] < 0 || y[0] > SCREEN_H) {
+			running = false;
+		}
 
+		//stop timer if game not running
+		if (!running) {
+			timer.stop();
+		}
     }
 
     public void gameOver(Graphics g) {
@@ -121,6 +135,7 @@ public class GamePanel extends JPanel implements ActionListener {
 			checkApple();
 			checkCollision();
 		}
+		//runs repaint for reset if game state is false
 		repaint();
     }
 
