@@ -77,14 +77,15 @@ public class GamePanel extends JPanel implements ActionListener {
 				}
 				g.fillRect(x[i], y[i], UNIT_SIZE, UNIT_SIZE);
 			}
-			g.setColor(Color.RED);
-			g.setFont(new Font("Ink Free", Font.BOLD, 40));
-			FontMetrics metrics = getFontMetrics(g.getFont());
-			g.drawString("Score: " + applesEaten, (SCREEN_W - metrics.stringWidth("Score: " + applesEaten))/2, g.getFont().getSize());
+
 		}
 	    else {
 	    	gameOver(g);
 		}
+		g.setColor(Color.RED);
+		g.setFont(new Font("Courier", Font.PLAIN, 20));
+		FontMetrics metrics = getFontMetrics(g.getFont());
+		g.drawString("Score: " + applesEaten, 0, g.getFont().getSize());
     }
 
     public void newApple() {
@@ -138,9 +139,15 @@ public class GamePanel extends JPanel implements ActionListener {
     public void gameOver(Graphics g) {
 		//game over text
 		g.setColor(Color.RED);
-		g.setFont(new Font("Ink Free", Font.BOLD, 75));
+		g.setFont(new Font("Courier", Font.BOLD, 75));
 		FontMetrics metrics = getFontMetrics(g.getFont());
-		g.drawString("GameOver", (SCREEN_W - metrics.stringWidth("Game Over"))/2, SCREEN_H/2);
+		g.drawString("Game Over :(", (SCREEN_W - metrics.stringWidth("Game Over :("))/2, SCREEN_H/2);
+
+		//play again click option
+//		g.setColor(Color.RED);
+//		g.setFont(new Font("Courier", Font.BOLD, 55));
+//		FontMetrics metrics1 = getFontMetrics(g.getFont());
+//		g.drawString("Play Again?", (SCREEN_W - metrics1.stringWidth("Play Again?"))/2, (SCREEN_H/2) + 100);
     }
 
     @Override
