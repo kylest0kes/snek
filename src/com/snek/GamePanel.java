@@ -60,22 +60,30 @@ public class GamePanel extends JPanel implements ActionListener {
     }
 
     public void draw(Graphics g) {
-	    //sets apple color, shape, and location and draws it
-	    g.setColor(Color.RED);
-	    g.fillOval(appleX, appleY, UNIT_SIZE, UNIT_SIZE);
+	    if (running) {
+			//sets apple color, shape, and location and draws it
+			g.setColor(Color.RED);
+			g.fillOval(appleX, appleY, UNIT_SIZE, UNIT_SIZE);
 
-	    //for loop to loop snake head and body parts and draw them
-		for (int i = 0; i < bodyParts; i++) {
-			//front of array = head
-			if (i==0) {
-				g.setColor(Color.GREEN);
+			//for loop to loop snake head and body parts and draw them
+			for (int i = 0; i < bodyParts; i++) {
+				//front of array = head
+				if (i==0) {
+					g.setColor(Color.GREEN);
+				}
+				//if not head, its body
+				else {
+					g.setColor(new Color(45, 180, 0));
+				}
+				g.fillRect(x[i], y[i], UNIT_SIZE, UNIT_SIZE);
 			}
-			//if not head, its body
-			else {
-				g.setColor(new Color(45, 180, 0));
-			}
-			g.fillRect(x[i], y[i], UNIT_SIZE, UNIT_SIZE);
-
+			g.setColor(Color.RED);
+			g.setFont(new Font("Ink Free", Font.BOLD, 40));
+			FontMetrics metrics = getFontMetrics(g.getFont());
+			g.drawString("Score: " + applesEaten, (SCREEN_W - metrics.stringWidth("Score: " + applesEaten))/2, g.getFont().getSize());
+		}
+	    else {
+	    	gameOver(g);
 		}
     }
 
@@ -128,7 +136,11 @@ public class GamePanel extends JPanel implements ActionListener {
     }
 
     public void gameOver(Graphics g) {
-
+		//game over text
+		g.setColor(Color.RED);
+		g.setFont(new Font("Ink Free", Font.BOLD, 75));
+		FontMetrics metrics = getFontMetrics(g.getFont());
+		g.drawString("GameOver", (SCREEN_W - metrics.stringWidth("Game Over"))/2, SCREEN_H/2);
     }
 
     @Override
